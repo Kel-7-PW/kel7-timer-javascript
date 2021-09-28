@@ -19,8 +19,8 @@ function startPause(){
 function stop(){
     running = 0;
     time = 0;
-    document.getElementById("start").innerHTML = "Start";
     saveResult();
+    document.getElementById("start").innerHTML = "Start";
     document.getElementById("output").innerHTML = "00:00:00";
 }
 
@@ -47,6 +47,10 @@ function increment(){
 }
 
 function saveResult(){
+    localStorage.setItem("saveHours", hours);
+    localStorage.setItem("saveMins", mins);
+    localStorage.setItem("saveSecs", secs);
+
     document.getElementById("result").innerHTML = "Total Pengerjaan : " + hours + " jam " + mins + " menit " + secs + " detik." ;
     showHideLabel(1);
 }

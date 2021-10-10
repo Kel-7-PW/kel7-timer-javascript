@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Stopwatch</title>
+</head>
+<body>
+  <div id="main">
+    <span style="font-size:30px;cursor:pointer;position: fixed;overflow: hidden;background-color:azure;width: 100%;padding: 5px;" onclick="openNav()">&#9776; Menu</span>
+    <div id="sidenav" class="navbar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="#">Home</a>
+    </div>
+
+    <main class="container" id="root">
+      <!-- JS ROOT HTML -->
+    </main>
+  </div>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+
+  </script>
+  <script>
+        $(".container").click(function(){
+          closeNav();
+        });
+  </script>
+  <script>
+    function openNav() {
+      document.getElementById("sidenav").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+    
+    function closeNav() {
+      document.getElementById("sidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+      document.body.style.backgroundColor = "white";
+    }
+    </script>
+  <script src="js/timer.js"></script>
+</body>
+</html>

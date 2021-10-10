@@ -1,0 +1,174 @@
+/* font */
+
+@font-face {
+  font-family: "Seven Segment";
+  src: url('../font/7 Segment.ttf');
+  }
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+/* menu and navbar */
+.navbar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.navbar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  color: #f1f1f1;
+}
+
+.navbar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 0px;
+}
+
+@media screen and (max-height: 450px) {
+  .navbar {padding-top: 15px;}
+  .navbar a {font-size: 18px;}
+}
+
+/* form */
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdown {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 14px;
+}
+
+.timer {
+  font-size: 5rem;
+  margin-bottom: 16px;
+  font-weight: normal;
+}
+
+.action {
+  margin-bottom: 28px;
+}
+
+.btn {
+  border: none;
+  padding: 14px 0;
+  width: 140px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  margin: 0 8px;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  transition: .2s;
+}
+
+.btn:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.btn:active {
+  transform: unset;
+}
+
+.start {
+  background-color: #155bdd;
+}
+
+.stop {
+  background-color: #c71414;
+}
+
+.split {
+  display: none;
+}
+
+.split-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 200px;
+  margin-bottom: -200px;
+  overflow: auto;
+}
+
+.split-list {
+  display: flex;
+  min-width: 350px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  margin-bottom: 4px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.result {
+  display: none;
+  margin-bottom: 16px;
+}

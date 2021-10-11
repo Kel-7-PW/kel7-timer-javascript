@@ -198,3 +198,4 @@ Project Link: [https://github.com/Kel-7-PW/kel7-timer-javascript](https://github
 [issues-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/issues
 [forks-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/network
 [stars-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/stargazers
+[license-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/pulse

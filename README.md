@@ -2,10 +2,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[issues-url]: https://img.shields.io/github/issues/Kel-7-PW/kel7-timer-javascript
-[forks-url]: https://img.shields.io/github/forks/Kel-7-PW/kel7-timer-javascript
-[stars-url]: https://img.shields.io/github/stars/Kel-7-PW/kel7-timer-javascript
-[license-url]: https://img.shields.io/github/license/Kel-7-PW/kel7-timer-javascript
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -192,3 +188,10 @@ Tubagus M Akbar K - tubagus.muchamad.tif419@polban.ac.id
 Project Link: [https://github.com/Kel-7-PW/kel7-timer-javascript](https://github.com/Kel-7-PW/kel7-timer-javascript)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+[issues-url]: https://img.shields.io/github/issues/Kel-7-PW/kel7-timer-javascript
+[forks-url]: https://img.shields.io/github/forks/Kel-7-PW/kel7-timer-javascript
+[stars-url]: https://img.shields.io/github/stars/Kel-7-PW/kel7-timer-javascript
+[license-url]: https://img.shields.io/github/license/Kel-7-PW/kel7-timer-javascript

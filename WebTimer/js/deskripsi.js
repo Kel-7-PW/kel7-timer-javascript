@@ -1,16 +1,12 @@
-var storedItem = localStorage.getItem("storedItem");
-var storedItem2 = localStorage.getItem("storedItem2");
-function save() {
-  var item = document.getElementById("task").value;
-  var item2 = document.getElementById("deskripsi").value;
-  localStorage.setItem("storedItem", item);
-  localStorage.setItem("storedItem2", item2);
-  document.getElementById("savedText").innerHTML = item;
-}
+      var storedItem = localStorage.getItem("storedItem");
 
-function get() {
-  localStorage.getItem("storedItem");
-  document.getElementById("task").value = storedItem;
-  document.getElementById("deskripsi").value = storedItem2;
-  document.getElementById("savedTask").innerText = storedItem;
-}
+        function handleSave(){
+            var item = document.getElementsByName("inputTitle")[0].value;
+            localStorage.setItem("storedItem", item);
+            document.getElementsByName("title")[0].innerHTML = item;
+        }
+
+        function get(){
+            localStorage.getItem("storedItem");
+            document.getElementsByName("title")[0].innerHTML = storedItem ;
+        } 

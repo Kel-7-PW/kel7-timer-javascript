@@ -1,5 +1,10 @@
 // total countdown to render
-const TOTAL_RENDER_COUNTDOWN = 4;
+let TOTAL_RENDER_COUNTDOWN = 0;
+if (localStorage.getItem('totalStopwatch')) {
+  TOTAL_RENDER_COUNTDOWN = parseInt(localStorage.getItem('totalStopwatch'));
+} else {
+  localStorage.setItem('totalStopwatch', TOTAL_RENDER_COUNTDOWN);
+}
 // delay for setTimeOut
 const DELAY_SECOND = 1000; //1 second
 // active countdown
@@ -9,38 +14,101 @@ if (localStorage.getItem('active')) {
 } else {
   localStorage.setItem('active', active);
 }
+let statusReset= 0;
 
 // render HTML
 const DOMRoot = document.getElementById('root');
+const DOMMenubar = document.getElementById('menubar');
+
+navbar();
 render();
 
-function render() {
-  DOMRoot.innerHTML = renderCountdown();
+function openNav() {
+  document.getElementById("sidenav").style.width = "15%";
+  document.getElementById("main").style.marginLeft = "15%";
 }
 
-function renderCountdown() {
-  let html = '';
-  let hex = ['#e6eeff', '#f7f8ef'];
+function closeNav() {
+  document.getElementById("sidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+  document.body.style.backgroundColor = "white";
+}
 
-  for(let i = 0; i < TOTAL_RENDER_COUNTDOWN; i++) {
+function navbar() {
+  DOMMenubar.innerHTML = renderNavbar();
+}
+
+
+function render() {
+  
+  DOMRoot.innerHTML = renderCountdown();
+  
+}
+
+function renderNavbar() {
+  let html = '';
+  html += `
+      <div class="menu">
+        <a onclick="openNav()"><span>&#9776; Menu</span></a>
+        <a onclick="handleAdd()"><span>&#9547; Add</span></a>
+        <a onclick="handleReset()"><span>&#128465; Reset</span></a>
+      </div>
+      
+      
+      <div id="sidenav" class="navbar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Home</a>
+      </div>`;
+
+  return html;
+}
+
+
+function renderCountdown() {
+  
+  let html = '';
+
+  let hex = ['#e6eeff', '#ffe6e6'];
+  
+  for (let i = 0; i < TOTAL_RENDER_COUNTDOWN; i++) {
+    
+   
+  
     html += `
-      <div class="countdown" style="background-color: ${hex[i%2]}">
-        <h3 class="title" id="stopwatch-${i+1}">Stopwatch ${i+1}</h3>
-        <h1 class="timer" name="timer">
-          00:00:00
-        </h1>
-        <div class="action">
-          <button class="btn start" name="btn-start" onclick="handlePlay(${i})">Start</button>
-          <button class="btn stop" name="btn-stop" onclick="handleStop(${i})">Stop</button>
-          <button class="btn split" name="btn-split" onclick="handleSplit(${i})">Split</button>
+      <div class="countdown" style="background-color: ${hex[i % 2]}">
+        <div class="stopwatch">
+          <h3 class="title" id="title-${i}">Stopwatch ${i + 1}</h3>
+          <h1 class="timer" name="timer">
+            00:00:00
+          </h1>
+          <div class="action">
+            <button class="btn start" name="btn-start" onclick="handlePlay(${i})">Start</button>
+            <button class="btn stop" name="btn-stop" onclick="handleStop(${i})">Stop</button>
+            <button class="btn split" name="btn-split" onclick="handleSplit(${i})">Split</button>
+          </div>
+          <h2 class="result" name="result">Total Waktu Pengerjaan : <span name="result-time"></span> </h2>
+
+          <div class="namatugas">
+          <label for="">Nama Tugas :</label>
+          <input type="text" id="inputTitle${i}" placeholder="Masukkan Nama Tugas"> 
+          <button class="btn save" name="btn-save" onclick="handleSave(${i})"> Save</button>
+          
+          </div>
         </div>
-        <h2 class="result" name="result">Total Waktu Pengerjaan : <span name="result-time"></span> </h2>
+
         <div class="split-container" name="split-container">
           <!-- SPLIT LIST -->
         </div>
+
+      
+        
       </div>
     `;
+    $.get("http://localhost:3000/getStopwatchTitle?id_stopwatch=" + i, function (data) {
+      document.getElementById("title-" + i).innerHTML = data.data.title_task;
+    });
   }
+
   return html;
 }
 
@@ -52,6 +120,7 @@ const KEY_STORAGE = (index = active) => ({
   isPlay: `isPlay-${index}`,
   isPause: `isPause-${index}`,
   split: `split-${index}`,
+  title: `title-${index}`,
 });
 
 function clearStorage(index) {
@@ -63,12 +132,15 @@ function clearStorage(index) {
 // dom
 const DOM = (index = active) => ({
   Timer: document.getElementsByName('timer')[index],
+  Title: document.getElementsByName('title')[index],
   BtnStart: document.getElementsByName('btn-start')[index],
   BtnStop: document.getElementsByName('btn-stop')[index],
   BtnSplit: document.getElementsByName('btn-split')[index],
+  BtnSave: document.getElementsByName('btn-save')[index],
   SplitContainer: document.getElementsByName('split-container')[index],
   Result: document.getElementsByName('result')[index],
   ResultTime: document.getElementsByName('result-time')[index],
+  inputTitle: document.getElementsByName('inputTitle')[index],
 });
 
 // variable
@@ -84,37 +156,44 @@ let isPlay = JSON.parse(localStorage.getItem(KEY_STORAGE(active).isPlay)) || fal
 let isPause = JSON.parse(localStorage.getItem(KEY_STORAGE(active).isPause)) || false;
 let isFinish = false;
 let split = JSON.parse(localStorage.getItem(KEY_STORAGE(active).split)) || [];
+let title = JSON.parse(localStorage.getItem(KEY_STORAGE(active).title));
 
 // mount
-didMount();
-setInterval(handleTimerChange, DELAY_SECOND);
 
+if(TOTAL_RENDER_COUNTDOWN > 0){
+  didMount();
+  setInterval(handleTimerChange, DELAY_SECOND);
+}
 // function
 function didMount() {
-  mapDataCountdown();
-  getPlay(active);
-  if (!startTime && !isPlay && !isPause) {
-    countdown = 0;
-    DOM(active).BtnStart.innerText = statusBtn.start;
-  } else {
-    if (isPause) {
-      DOM(active).BtnStart.innerHTML = statusBtn.continue;
+  if(TOTAL_RENDER_COUNTDOWN > 0){
+    mapDataCountdown();
+    getPlay(active);
+    if (!startTime && !isPlay && !isPause) {
+      countdown = 0;
+      DOM(active).BtnStart.innerText = statusBtn.start;
     } else {
-      let newTime = calculateTimeDiff(startTime, Date.now());
-      countdown = newTime;
-      DOM(active).BtnSplit.style.display = 'inline';
-      DOM(active).BtnStart.innerHTML = statusBtn.pause;
+      if (isPause) {
+        DOM(active).BtnStart.innerHTML = statusBtn.continue;
+      } else {
+        let newTime = calculateTimeDiff(startTime, Date.now());
+        countdown = newTime;
+        DOM(active).BtnSplit.style.display = 'inline';
+        DOM(active).BtnStart.innerHTML = statusBtn.pause;
+      }
     }
   }
 }
 
 function handleTimerChange() {
-  if (isPlay) {
-    countdown += DELAY_SECOND;
-    localStorage.setItem(KEY_STORAGE(active).countdown, countdown);
+  if(TOTAL_RENDER_COUNTDOWN > 0){
+    if (isPlay) {
+      countdown += DELAY_SECOND;
+      localStorage.setItem(KEY_STORAGE(active).countdown, countdown);
+    }
+  
+    DOM(active).Timer.innerText = convertMillisecondToMinutes(countdown);
   }
-
-  DOM(active).Timer.innerText = convertMillisecondToMinutes(countdown);
 }
 
 function handleActiveChange(index) {
@@ -133,11 +212,11 @@ function handleActiveChange(index) {
 }
 
 function mapDataCountdown() {
-  for(let i = 0; i < TOTAL_RENDER_COUNTDOWN; i++) {
+  for (let i = 0; i < TOTAL_RENDER_COUNTDOWN; i++) {
     let localCountdown = parseInt(localStorage.getItem(KEY_STORAGE(i).countdown)) || 0;
     let localSplit = JSON.parse(localStorage.getItem(KEY_STORAGE(i).split)) || [];
     DOM(i).Timer.innerText = convertMillisecondToMinutes(localCountdown);
-    if(localSplit || localSplit[0]) {
+    if (localSplit || localSplit[0]) {
       mapSplitData(localSplit, i);
     }
   }
@@ -146,6 +225,7 @@ function mapDataCountdown() {
 function handlePlay(indexEl) {
   getPlay(indexEl);
   handleActiveChange(indexEl);
+  
   if (!isPlay) {
     if (!startTime) {
       let newTime = Date.now();
@@ -204,7 +284,7 @@ function handleStop(indexEl) {
   let localSplit = JSON.parse(localStorage.getItem(KEY_STORAGE(indexEl).split)) || [];
   if (localStartTime) {
     DOM(indexEl).Result.style.display = 'block';
-    if(localSplit.length > 0) {
+    if (localSplit.length > 0) {
       let totalDiff = calculateTimeDiff(localSplit[0].time, localCountdown);
       DOM(indexEl).ResultTime.innerText = convertMillisecondToMinutes(localCountdown, true) + ' | Selisih : ' + convertMillisecondToMinutes(totalDiff, true);
     } else {
@@ -214,7 +294,7 @@ function handleStop(indexEl) {
     DOM(indexEl).BtnSplit.style.display = 'none';
     DOM(indexEl).BtnStart.innerText = statusBtn.start;
     clearStorage(indexEl);
-    if(indexEl === active) {
+    if (indexEl === active) {
       setStop();
     }
   }
@@ -227,6 +307,11 @@ function setStop() {
   isPause = false;
   countdown = 0;
   split = [];
+  //tes Postgresql
+  $.post("http://localhost:3000/deleteStopwatch?id_stopwatch=" + active, function (data) {
+    console.log('success', data)
+  });
+  //end tes
 }
 
 function handleSplit(indexEl) {
@@ -236,12 +321,60 @@ function handleSplit(indexEl) {
   localStorage.setItem(KEY_STORAGE(active).split, JSON.stringify(split));
 
   mapSplitData(split);
+
+  //tes Postgresql
+  $.post("http://localhost:3000/postStopwatch?id_stopwatch=" + active + "&time=" + countdown + "&index=" + index, function (data) {
+    console.log('success', data)
+  });
+  //end tes
+}
+// save name task
+
+function handleSave(indexEl) {
+  var item = document.getElementById("inputTitle" + indexEl).value;
+  //document.getElementById("title-"+indexEl).innerHTML = item;
+  $.post("http://localhost:3000/postStopwatchTitle?id_stopwatch=" + indexEl + '&title_task=' + item, function (data) {
+    document.getElementById("title-" + indexEl).innerHTML = item;
+  });
+}
+
+function handleAdd(){
+  TOTAL_RENDER_COUNTDOWN += 1;
+  //render();
+  location.reload();
+  localStorage.setItem('totalStopwatch',TOTAL_RENDER_COUNTDOWN);
+  
+  if(TOTAL_RENDER_COUNTDOWN === 1){
+    didMount();
+    setInterval(handleTimerChange, DELAY_SECOND);
+  }
+}
+
+function handleReset(){
+  // TOTAL_RENDER_COUNTDOWN = 0;
+  // localStorage.removeItem('totalStopwatch');
+  // for(let x = 0; x<TOTAL_RENDER_COUNTDOWN; x++){
+  //   console.log(x);
+  //   clearStorage(x)
+  // }
+  // TOTAL_RENDER_COUNTDOWN = 0;
+  // localStorage.removeItem('totalStopwatch');
+  // render();
+  localStorage.clear();
+  location.reload();
 }
 
 function mapSplitData(splitData, index = active) {
   let splitHtml = '';
-  splitData.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, splitData)));
-  DOM(index).SplitContainer.innerHTML = splitHtml;
+  //tes Postgresql
+  $.get("http://localhost:3000/getStopwatch?id_stopwatch=" + active, function (dataPG) {
+    console.log('get split', dataPG)
+    dataPG.data.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, dataPG.data)));
+    DOM(index).SplitContainer.innerHTML = splitHtml;
+  });
+  //end tes
+  // splitData.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, splitData)));
+  // DOM(index).SplitContainer.innerHTML = splitHtml;
 }
 
 function renderSplit(index, time, diff) {
@@ -256,7 +389,7 @@ function renderSplit(index, time, diff) {
 
 function splitTimeDiff(index, data) {
   let nextData = data[index + 1];
-  if(nextData) {
+  if (nextData) {
     return convertMillisecondToMinutes(calculateTimeDiff(data[index].time, nextData.time));
   } else {
     return convertMillisecondToMinutes(data[index].time);

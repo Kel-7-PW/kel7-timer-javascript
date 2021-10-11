@@ -99,11 +99,13 @@ Berikut beberapa dependencies nodejs yang dibutuhkan untuk menjalankan program
    git clone https://github.com/Kel-7-PW/kel7-timer-javascript
    ```
 2. Extract zip
-3. buka terminal, arahkan pada folder WebTimer
-3. npm install
-4. node index.js
-5. node app.js
-6. buka index.html
+3. ubah "pass123" pada 'WebTimer/model/stopwatch_model.js' dengan password db anda
+4. dengan catatan sudah memiliki db postgre
+5. buka terminal, arahkan pada folder WebTimer
+6. npm install
+7. node index.js
+8. node app.js
+9. buka index.html
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

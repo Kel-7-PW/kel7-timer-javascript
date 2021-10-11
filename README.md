@@ -41,7 +41,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Output.png "Title")
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Stopwatch-Menu.png "Title")
 
 Tugas pembuatan mini project stopwatch ini menggunakan HTML, CSS dan VanillaJs yang telah ditugaskan pada mata kuliah Pengembangan Web kelas D4-3B di Jurusan Teknik Informatika POLBAN
 
@@ -79,6 +79,15 @@ Berikut software yang dibutuhkan untuk menjalankan program
 * Windows/IOS
 * Web Browser
 
+### Dependencies
+
+Berikut beberapa dependencies nodejs yang dibutuhkan untuk menjalankan program
+* pg
+* pg-hstore
+* sequelize
+* express
+* cors
+
 ### Installation
 
 1. Clone reporsitori
@@ -102,19 +111,18 @@ Berikut software yang dibutuhkan untuk menjalankan program
 Berikut beberapa Screenshoot output dari program Stopwatch
 
 ## Pengenalan Fitur Stopwatch ##
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Output.png "Title")
-#### Memiliki Indikator Waktu DD:HH:MM:SS ####
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Start.png "Title")
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Menu.png "Title")
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Main%20Menu.png "Title")
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Stopwatch-Menu.png "Title")
+#### Memiliki Indikator Waktu HH:MM:SS ####
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Stopwatch.png "Title")
 #### Memiliki Tombol Start, Pause, dan Stop ####
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Start.png "Title")
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Pause.png "Title")
-#### Memiliki Fitur Tambahan Lap dan Reset Lap ####
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Lap%20Output.png "Title")
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Lap%20Reset.png "Title")
-#### Stopwatch akan terus berjalan jika di refresh/close browser ####
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Lap%20Reset.png "Title")
+#### Memiliki Fitur Tambahan Lap ####
 #### Nama Tugas dan Deskripsi ####
-![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Nama%20Tugas%20dan%20Desc.png "Title")
+#### Stopwatch akan terus berjalan jika di refresh/close browser ####
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Lap.png "Title")
+#### Stopwatch dinamis yang dapat ditambah ####
+![picture alt](https://github.com/Kel-7-PW/kel7-timer-javascript/blob/main/Output/Stopwatch-Menu2.png "Title")
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

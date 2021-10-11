@@ -1,5 +1,5 @@
 const {Op,Model, DataTypes, Sequelize,QueryTypes} = require('sequelize');
-const sequelize = new Sequelize('postgres://postgres:akbar1709@localhost:5432/stopwatch');
+const sequelize = new Sequelize('postgres://postgres:pass123@localhost:5432/stopwatch');
  
 //tabel stopwatch
  

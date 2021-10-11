@@ -191,7 +191,10 @@ Project Link: [https://github.com/Kel-7-PW/kel7-timer-javascript](https://github
 
 
 
-[issues-url]: https://img.shields.io/github/issues/Kel-7-PW/kel7-timer-javascript
-[forks-url]: https://img.shields.io/github/forks/Kel-7-PW/kel7-timer-javascript
-[stars-url]: https://img.shields.io/github/stars/Kel-7-PW/kel7-timer-javascript
-[license-url]: https://img.shields.io/github/license/Kel-7-PW/kel7-timer-javascript
+[issues-shield]: https://img.shields.io/github/issues/Kel-7-PW/kel7-timer-javascript
+[forks-shield]: https://img.shields.io/github/forks/Kel-7-PW/kel7-timer-javascript
+[stars-shield]: https://img.shields.io/github/stars/Kel-7-PW/kel7-timer-javascript
+[license-shield]: https://img.shields.io/github/license/Kel-7-PW/kel7-timer-javascript
+[issues-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/issues
+[forks-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/network
+[stars-url]: https://github.com/Kel-7-PW/kel7-timer-javascript/stargazers

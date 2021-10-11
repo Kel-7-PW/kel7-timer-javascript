@@ -1,3 +1,11 @@
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[issues-url]: https://img.shields.io/github/issues/Kel-7-PW/kel7-timer-javascript
+[forks-url]: https://img.shields.io/github/forks/Kel-7-PW/kel7-timer-javascript
+[stars-url]: https://img.shields.io/github/stars/Kel-7-PW/kel7-timer-javascript
+[license-url]: https://img.shields.io/github/license/Kel-7-PW/kel7-timer-javascript
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">

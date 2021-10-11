@@ -86,7 +86,11 @@ Berikut software yang dibutuhkan untuk menjalankan program
    git clone https://github.com/Kel-7-PW/kel7-timer-javascript
    ```
 2. Extract zip
-3. Buka index.html
+3. buka terminal, arahkan pada folder WebTimer
+3. npm install
+4. node index.js
+5. node app.js
+6. buka index.html
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

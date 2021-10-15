@@ -1,5 +1,5 @@
 const {Op,Model, DataTypes, Sequelize,QueryTypes} = require('sequelize');
-const sequelize = new Sequelize('postgres://postgres:pass123@localhost:5432/stopwatch');
+const sequelize = new Sequelize('postgres://postgres:akbar1709@localhost:5432/stopwatch');
  
 //tabel stopwatch
  
@@ -49,6 +49,31 @@ const myStopwatchTitle = sequelize.define('title', {
     timestamps:false
 })
  
+
+const myStopwatchRecord = sequelize.define('final_record', {
+    id_record:{
+        type:DataTypes.INTEGER,
+        allowNull:true,
+        primaryKey:true
+    },
+    total_waktu:{
+        type:DataTypes.INTEGER,
+        allowNull:true
+    },
+    selisih_akhir:{
+        type:DataTypes.INTEGER,
+        allowNull:true
+    },
+   
+    id_stopwatch:{
+        type:DataTypes.INTEGER,
+        allowNull:true
+    }
+},{
+    schema:"public",
+    tableName:"final_record",
+    timestamps:false
+});
  
 class StopwatchModel {
     //GET SPLIT
@@ -57,7 +82,6 @@ class StopwatchModel {
             where:{
                 id_stopwatch:extras.id_stopwatch
             },
- 
             order:[
                 ['index','desc']
             ]
@@ -110,5 +134,47 @@ class StopwatchModel {
         }
         )
     }
+ 
+    //DELETE SPLIT
+    deleteRecord=(extras)=>{
+        return myStopwatchRecord.destroy({
+            where:{
+                id_stopwatch:extras.id_stopwatch
+            }
+        }
+        )
+    }
+
+    //GET RECORD
+    getRecord=(extras)=>{
+        return myStopwatchRecord.findOne({
+            where:{
+                id_stopwatch:extras.id_stopwatch
+            }
+        })
+    }
+    
+    //CREATE RECORD
+    createRecord=(extras)=>{
+        return myStopwatchRecord.create(extras,{
+            fields:Object.keys(extras)
+        }
+        )
+    }
+ 
+    //UPDATE RECORD
+    updateRecord=(extras)=>{
+        return myStopwatchRecord.update({
+            total_waktu:extras.total_waktu,
+            selisih_akhir:extras.selisih_akhir
+        },{
+            where:{
+                id_stopwatch:extras.id_stopwatch
+            }
+        }
+        )
+    }
+
+
 }
 module.exports = StopwatchModel;

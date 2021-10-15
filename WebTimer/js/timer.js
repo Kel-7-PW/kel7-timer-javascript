@@ -14,7 +14,7 @@ if (localStorage.getItem('active')) {
 } else {
   localStorage.setItem('active', active);
 }
-let statusReset= 0;
+let statusReset = 0;
 
 // render HTML
 const DOMRoot = document.getElementById('root');
@@ -30,7 +30,7 @@ function openNav() {
 
 function closeNav() {
   document.getElementById("sidenav").style.width = "0";
-  document.getElementById("main").style.marginLeft= "0";
+  document.getElementById("main").style.marginLeft = "0";
   document.body.style.backgroundColor = "white";
 }
 
@@ -38,11 +38,8 @@ function navbar() {
   DOMMenubar.innerHTML = renderNavbar();
 }
 
-
 function render() {
-  
   DOMRoot.innerHTML = renderCountdown();
-  
 }
 
 function renderNavbar() {
@@ -63,17 +60,10 @@ function renderNavbar() {
   return html;
 }
 
-
 function renderCountdown() {
-  
   let html = '';
-
   let hex = ['#e6eeff', '#ffe6e6'];
-  
   for (let i = 0; i < TOTAL_RENDER_COUNTDOWN; i++) {
-    
-   
-  
     html += `
       <div class="countdown" style="background-color: ${hex[i % 2]}">
         <div class="stopwatch">
@@ -99,9 +89,7 @@ function renderCountdown() {
         <div class="split-container" name="split-container">
           <!-- SPLIT LIST -->
         </div>
-
-      
-        
+ 
       </div>
     `;
     $.get("http://localhost:3000/getStopwatchTitle?id_stopwatch=" + i, function (data) {
@@ -160,13 +148,13 @@ let title = JSON.parse(localStorage.getItem(KEY_STORAGE(active).title));
 
 // mount
 
-if(TOTAL_RENDER_COUNTDOWN > 0){
+if (TOTAL_RENDER_COUNTDOWN > 0) {
   didMount();
   setInterval(handleTimerChange, DELAY_SECOND);
 }
 // function
 function didMount() {
-  if(TOTAL_RENDER_COUNTDOWN > 0){
+  if (TOTAL_RENDER_COUNTDOWN > 0) {
     mapDataCountdown();
     getPlay(active);
     if (!startTime && !isPlay && !isPause) {
@@ -186,12 +174,12 @@ function didMount() {
 }
 
 function handleTimerChange() {
-  if(TOTAL_RENDER_COUNTDOWN > 0){
+  if (TOTAL_RENDER_COUNTDOWN > 0) {
     if (isPlay) {
       countdown += DELAY_SECOND;
       localStorage.setItem(KEY_STORAGE(active).countdown, countdown);
     }
-  
+
     DOM(active).Timer.innerText = convertMillisecondToMinutes(countdown);
   }
 }
@@ -225,7 +213,7 @@ function mapDataCountdown() {
 function handlePlay(indexEl) {
   getPlay(indexEl);
   handleActiveChange(indexEl);
-  
+
   if (!isPlay) {
     if (!startTime) {
       let newTime = Date.now();
@@ -282,11 +270,16 @@ function handleStop(indexEl) {
   let localStartTime = localStorage.getItem(KEY_STORAGE(indexEl).startTime);
   let localCountdown = parseInt(localStorage.getItem(KEY_STORAGE(indexEl).countdown)) || 0;
   let localSplit = JSON.parse(localStorage.getItem(KEY_STORAGE(indexEl).split)) || [];
+  let totalDiff = 0;
   if (localStartTime) {
     DOM(indexEl).Result.style.display = 'block';
     if (localSplit.length > 0) {
-      let totalDiff = calculateTimeDiff(localSplit[0].time, localCountdown);
+      totalDiff = calculateTimeDiff(localSplit[0].time, localCountdown);
       DOM(indexEl).ResultTime.innerText = convertMillisecondToMinutes(localCountdown, true) + ' | Selisih : ' + convertMillisecondToMinutes(totalDiff, true);
+      // buat nyimpen si record final
+      $.post("http://localhost:3000/postFinalRecord?id_stopwatch=" + active +"&total_waktu=" + countdown +"&selisih_akhir=" + totalDiff, function (data) {
+        console.log('success', data)
+      });
     } else {
       DOM(indexEl).ResultTime.innerText = convertMillisecondToMinutes(localCountdown, true);
     }
@@ -295,12 +288,14 @@ function handleStop(indexEl) {
     DOM(indexEl).BtnStart.innerText = statusBtn.start;
     clearStorage(indexEl);
     if (indexEl === active) {
-      setStop();
+      setStop(totalDiff);
     }
   }
 }
 
 function setStop() {
+
+
   startTime = 0;
   pauseTime = 0;
   isPlay = false;
@@ -308,10 +303,10 @@ function setStop() {
   countdown = 0;
   split = [];
   //tes Postgresql
+
   $.post("http://localhost:3000/deleteStopwatch?id_stopwatch=" + active, function (data) {
     console.log('success', data)
   });
-  //end tes
 }
 
 function handleSplit(indexEl) {
@@ -323,9 +318,9 @@ function handleSplit(indexEl) {
   mapSplitData(split);
 
   //tes Postgresql
-  $.post("http://localhost:3000/postStopwatch?id_stopwatch=" + active + "&time=" + countdown + "&index=" + index, function (data) {
-    console.log('success', data)
-  });
+  // $.post("http://localhost:3000/postStopwatch?id_stopwatch=" + active + "&time=" + countdown + "&index=" + index, function (data) {
+  ///  console.log('success', data)
+  // });
   //end tes
 }
 // save name task
@@ -338,19 +333,19 @@ function handleSave(indexEl) {
   });
 }
 
-function handleAdd(){
+function handleAdd() {
   TOTAL_RENDER_COUNTDOWN += 1;
   //render();
   location.reload();
-  localStorage.setItem('totalStopwatch',TOTAL_RENDER_COUNTDOWN);
-  
-  if(TOTAL_RENDER_COUNTDOWN === 1){
+  localStorage.setItem('totalStopwatch', TOTAL_RENDER_COUNTDOWN);
+
+  if (TOTAL_RENDER_COUNTDOWN === 1) {
     didMount();
     setInterval(handleTimerChange, DELAY_SECOND);
   }
 }
 
-function handleReset(){
+function handleReset() {
   // TOTAL_RENDER_COUNTDOWN = 0;
   // localStorage.removeItem('totalStopwatch');
   // for(let x = 0; x<TOTAL_RENDER_COUNTDOWN; x++){
@@ -367,15 +362,16 @@ function handleReset(){
 function mapSplitData(splitData, index = active) {
   let splitHtml = '';
   //tes Postgresql
-  $.get("http://localhost:3000/getStopwatch?id_stopwatch=" + active, function (dataPG) {
-    console.log('get split', dataPG)
-    dataPG.data.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, dataPG.data)));
-    DOM(index).SplitContainer.innerHTML = splitHtml;
-  });
+  // $.get("http://localhost:3000/getStopwatch?id_stopwatch=" + active, function (dataPG) {
+  //   console.log('get split', dataPG)
+  //   dataPG.data.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, dataPG.data)));
+  //   DOM(index).SplitContainer.innerHTML = splitHtml;
+  // });
   //end tes
-  // splitData.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, splitData)));
-  // DOM(index).SplitContainer.innerHTML = splitHtml;
+  splitData.map((data, index) => splitHtml += renderSplit(data.index, convertMillisecondToMinutes(data.time), splitTimeDiff(index, splitData)));
+  DOM(index).SplitContainer.innerHTML = splitHtml;
 }
+
 
 function renderSplit(index, time, diff) {
   return (
